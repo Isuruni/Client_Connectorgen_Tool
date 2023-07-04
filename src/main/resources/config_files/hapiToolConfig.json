@@ -1,0 +1,17 @@
+{
+  "fhirVersion" : "R4",
+  "ehrVendor" : "Hapi",
+  "version" : "1.0.0",
+  "distribution" : "2201.5.0",
+  "auth" : "none",
+  "acceptHeader" : "application/json+fhir",
+  "contentTypeInPatchRequest" : "",
+  "connectors" : [
+    {
+      "organizationName" : "isuruni",
+      "baseURL" : "http://hapi.fhir.org/baseR4",
+      "connectorName" : "HAPIFhirR4",
+      "capabilityStatementPath" : ""
+    }
+  ]
+}

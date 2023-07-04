@@ -1,0 +1,17 @@
+{
+  "fhirVersion" : "R4",
+  "ehrVendor" : "Cerner",
+  "version" : "1.0.0",
+  "distribution" : "2201.5.0",
+  "auth" : "oauth2",
+  "acceptHeader" : "application/json+fhir",
+  "contentTypeInPatchRequest" : "",
+  "connectors" : [
+    {
+      "organizationName" : "isuruni",
+      "baseURL" : "https://fhir-ehr-code.cerner.com/r4/ec2458f2-1e24-41c8-b71b-0e701af7583d",
+      "connectorName" : "cernerFhirR4",
+      "capabilityStatementPath" : ""
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "fhirVersion" : "R4",
+  "ehrVendor" : "AthenaHealth",
+  "version" : "1.0.0",
+  "distribution" : "2201.5.0",
+  "auth" : "basic",
+  "acceptHeader" : "application/json+fhir",
+  "contentTypeInPatchRequest" : "",
+  "connectors" : [
+    {
+      "organizationName" : "isuruni",
+      "baseURL" : "",
+      "connectorName" : "AthenaHealthFhirR4",
+      "capabilityStatementPath" : ""
+    }
+  ]
+}

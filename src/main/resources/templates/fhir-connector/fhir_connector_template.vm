@@ -1,0 +1,133 @@
+import ballerinax/health.clients.fhir;
+
+public isolated client class FHIRConnector{
+
+private final fhir:FHIRConnector fhirConnectorObj;
+
+public function init(
+#if($auth.equalsIgnoreCase("basic"))
+string userName,string password
+#end
+#if($auth.equalsIgnoreCase("oauth2"))
+string tokenUrl, string clientId, string clientSecret, string [] scopes
+#end
+#if($auth.equalsIgnoreCase("pkjwt"))
+string clientId,string tokenEndpoint,string keyFile
+#end
+#if($auth.equalsIgnoreCase("none"))#end) returns error? {
+fhir:FHIRConnectorConfig connectorConfig = {
+   baseURL : "$baseURL",
+   mimeType: fhir:FHIR_JSON,
+#if($auth.equalsIgnoreCase("basic"))
+   authConfig :{
+       userName:userName,
+       password:password,
+   }
+   #end
+#if($auth.equalsIgnoreCase("oauth2"))
+   authConfig:{
+       tokenUrl: tokenUrl,
+       clientId: clientId,
+       clientSecret: clientSecret,
+       scopes: scopes
+   }
+   #end
+#if($auth.equalsIgnoreCase("pkjwt"))
+   authConfig:{
+       clientId: clientId,
+       tokenEndpoint: tokenEndpoint,
+       keyFile: keyFile
+   }
+   #end
+#if($auth.equalsIgnoreCase("none"))
+    authConfig:{}
+   #end
+};
+        fhir:FHIRConnector fhirConnectorObj = check new (connectorConfig);
+        self.fhirConnectorObj = fhirConnectorObj;
+    }
+#foreach($resource in $resourceList)
+#if($resource.getFunctionsMap().get("create"))
+
+    remote isolated function create$resource.getName()(@display {label: "Resource data"} json|xml data,
+                                                 @display {label: "Return MIME Type"} fhir:MimeType? returnMimeType = (),
+                                                 @display {label: "Return Preference Type"} fhir:PreferenceType returnPreference = fhir:MINIMAL)
+                                                 returns fhir:FHIRResponse|fhir:FHIRError {
+
+            do {
+                fhir:FHIRResponse|fhir:FHIRError response = self.fhirConnectorObj->create(data,returnMimeType,returnPreference);
+                return response;
+            }
+    }
+#end
+#if($resource.getFunctionsMap().get("read"))
+
+    remote isolated function get$resource.getName()ById(@display {label: "Logical ID"} string id,
+                                                @display {label: "Return MIME Type"} fhir:MimeType? returnMimeType = (),
+                                                @display {label: "Summary"} fhir:SummaryType? summary = ())
+                                                returns fhir:FHIRResponse|fhir:FHIRError {
+
+
+            do {
+                fhir:FHIRResponse|fhir:FHIRError response = self.fhirConnectorObj->getById("$resource.getName()",id,returnMimeType);
+                return response;
+            }
+        }
+#end
+#if($resource.getFunctionsMap().get("search-type"))
+
+    remote isolated function search$resource.getName()(@display {label: "Search Parameters"} $resource.getName()SearchParameters|map<string[]>? searchParameters = (),
+                                              @display {label: "Return MIME Type"} fhir:MimeType? returnMimeType = ())
+                                              returns fhir:FHIRResponse|fhir:FHIRError  {
+
+
+        do {
+            fhir:FHIRResponse|fhir:FHIRError response = self.fhirConnectorObj->search("$resource.getName()",searchParameters,returnMimeType);
+            return response;
+        }
+    }
+#end
+#if($resource.getFunctionsMap().get("update"))
+
+    remote isolated function update$resource.getName()(@display {label: "Resource data"} json|xml data,
+                                            @display {label: "Return MIME Type"} fhir:MimeType? returnMimeType = (),
+                                            @display {label: "Return Preference Type"} fhir:PreferenceType returnPreference = fhir:MINIMAL)
+                                            returns fhir:FHIRResponse|fhir:FHIRError {
+
+
+        do {
+            fhir:FHIRResponse|fhir:FHIRError response = self.fhirConnectorObj->update(data,returnMimeType,returnPreference);
+            return response;
+        }
+    }
+#end
+#if($resource.getFunctionsMap().get("patch"))
+
+    remote isolated function patch$resource.getName()(@display {label: "Logical ID"} string id,
+                                        @display {label: "Resource data"} json|xml data,
+                                        @display {label: "Return MIME Type"} fhir:MimeType? returnMimeType = (),
+                                        @display {label: "Patch Content Type"} fhir:MimeType|fhir:PatchContentType? patchContentType = (),
+                                        @display {label: "Return Preference Type"} fhir:PreferenceType returnPreference = fhir:MINIMAL)
+                                            returns fhir:FHIRResponse|fhir:FHIRError {
+
+
+        do {
+            fhir:FHIRResponse|fhir:FHIRError response = self.fhirConnectorObj->patch("$resource.getName()",id, data,returnMimeType,patchContentType);
+            return response;
+        }
+    }
+#end
+#if($resource.getFunctionsMap().get("delete"))
+
+    remote isolated function delete$resource.getName()(@display {label: "Logical ID"} string id)
+                                            returns fhir:FHIRResponse|fhir:FHIRError {
+
+
+        do {
+            fhir:FHIRResponse|fhir:FHIRError response = self.fhirConnectorObj->delete("$resource.getName()",id);
+            return response;
+        }
+    }
+    #end
+#end
+}

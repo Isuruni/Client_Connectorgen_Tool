@@ -1,0 +1,17 @@
+{
+  "fhirVersion" : "R4",
+  "ehrVendor" : "Epic",
+  "version" : "1.0.0",
+  "distribution" : "2201.5.0",
+  "auth" : "pkjwt",
+  "acceptHeader" : "application/json+fhir",
+  "contentTypeInPatchRequest" : "",
+  "connectors" : [
+    {
+      "organizationName" : "isuruni",
+      "baseURL" : "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
+      "connectorName" : "epicFhirR4",
+      "capabilityStatementPath" : ""
+    }
+  ]
+}

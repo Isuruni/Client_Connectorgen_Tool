@@ -1,0 +1,9 @@
+#foreach($resource in $resourceList)
+public type $resource.getName()SearchParameters record {|
+#foreach($param in $resource.getSearchParams())
+#if($param.getName().toString().contains("-"))$param.setName($param.getName().replaceAll("-", "_"))#end
+#if($param.getName().toString().contains("."))$param.setName($param.getName().replace(".", "_"))#end
+string _$param.getName()?;
+#end
+|};
+#end
